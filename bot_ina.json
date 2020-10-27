@@ -1,0 +1,26 @@
+{
+  "nome": "Bot_Ina",
+  "apresentação": [
+    "Olá sou o BOT INA N° 45, como posso ajudá-lo?",
+    "BOT INA aqui, diga o seu comando: "
+  ],
+  "comandos": {
+    "qual_o_clima": [
+      "O clima hoje é muito sol.",
+      "O clima hoje é muito ruim para ir ao shopping.",
+      "O clima agora é: NÃO SAIA DE CASA!!!"
+    ],
+    "boas_vindas": [
+      "Oi, sou o BOT INA, seja bem vindo.",
+      "Estou a seu dispor para ajudá-lo(a)",
+      "Realizo todos os teus desejos"
+    ],
+    "despedida": [
+      "Tchau.",
+      "Até mais",
+      "Até a próxima",
+      "Nos vemos em breve",
+      "See ya"
+    ]
+  }
+}
