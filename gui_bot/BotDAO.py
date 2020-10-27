@@ -36,4 +36,4 @@ class BotDAO(DAO):
             return False
 
     def get_all(self):
-        return self.__object_cache.values()
+        return list(self.__object_cache.values())

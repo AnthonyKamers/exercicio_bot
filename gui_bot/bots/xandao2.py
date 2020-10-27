@@ -85,7 +85,10 @@ class NewBot(Bot):
         # print(x)
         # return x
         comandos = []
+        print(self.comandos)
         for i in self.comandos:
+            print(i)
+            print(i.mensagem)
             comandos.append(i.mensagem)
 
         return comandos

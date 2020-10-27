@@ -43,11 +43,9 @@ class Comando:
 
 
 class NewBot(Bot):
-    def __init__(self, nome, comandos):
+    def __init__(self, nome):
         self.__nome = nome
         self.__comandos = []
-        for i in comandos:
-            self.__comandos.append(Comando(*i))
 
         self.cria_comandos(1, "Boas vindas", [
                            "'Olá...Como posso te atrapalhar? Whoops, ajudar?'"])
@@ -69,10 +67,11 @@ class NewBot(Bot):
             raise IdRepetidoError("Já existe um comando com esse ID.")
 
     def mostra_comandos(self):
-        s = "Comandos:\n"
+        comandos = []
         for i in self.__comandos:
-            s += "%d. %s\n" % (i.id, i.mensagem)
-        return s
+            comandos.append(i.mensagem)
+
+        return comandos
 
     def executa_comando(self, cmd):
         try:
