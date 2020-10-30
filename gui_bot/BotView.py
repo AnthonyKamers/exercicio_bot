@@ -19,10 +19,10 @@ class BotView(BaseView):
 
         # colocar comandos na mesma linha
         for i in range(0, len(comandos)):
-            linha3.append(sg.Button(comandos[i], key=i+1))
+            linha3.append(sg.Button(comandos[i], key=i))
 
         linha4 = [sg.Button("Importar"), sg.Button(
-            "Exportar"), sg.Button("Novo")]
+            "Exportar"), sg.Button("Novo"), sg.Button("Escolher Bot"), sg.Button("Adicionar pergunta")]
 
         # colocar em um container e gerar a UI
         self.container = [linha0, linha1, linha2, linha3, linha4]

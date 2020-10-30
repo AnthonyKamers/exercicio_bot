@@ -60,39 +60,32 @@ class NewBot(Bot):
     def apresentacao(self):
         return f'Eu sou o {self.__nome}'
 
-    def cria_comandos(self, id, msg, respostas):
-        if id not in [x.id for x in self.__comandos]:
-            self.__comandos.append(Comando(id, msg, respostas))
+    def cria_comandos(self, id, mensagem, respostas):
+        if isinstance(mensagem, str):
+            self.__comandos.append(Comando(id, mensagem, respostas))
         else:
-            raise IdRepetidoError("Já existe um comando com esse ID.")
+            return 'Tipo recebido inválido'
 
     def mostra_comandos(self):
         comandos = []
         for i in self.__comandos:
             comandos.append(i.mensagem)
-
         return comandos
 
     def executa_comando(self, cmd):
         try:
             cmd = int(cmd)
-            find = next(x for x in self.__comandos if x.id == cmd)
-            return find.getRandomResposta()
+            resposta = self.__comandos[cmd].getRandomResposta()
 
-        # if cmd in [x.id for x in self.__comandos]:
-            # find = next(x for x in self.__comandos if x.id == cmd)
-            # return find.getRandomResposta()
+            return resposta
+
         except ValueError as e:
             print('comando tem que ser um inteiro')
         except StopIteration as e:
             print('comando não está na lista de comandos!')
-        # except Exception as e:
-        #     print('Comando não existe')
-        #     print(e)
-        #     # raise ComandoNaoExisteError("Comando não existe")
 
     def boas_vindas(self):
-        return 'Olá...Como posso te atrapalhar? Whoops, ajudar?'
+        pass
 
     def despedida(self):
-        return f'Já vai embora? Sniff...'
+        pass

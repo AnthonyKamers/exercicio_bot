@@ -1,3 +1,4 @@
+from BotDAO import BotDAO
 import PySimpleGUI as sg
 import bots
 from bots import *
@@ -7,7 +8,8 @@ from Bot import Bot  # model
 from BotView import BotView
 from BotImportView import BotImportView
 from BotExportView import BotExportView
-from BotDAO import BotDAO
+from BotSelectView import BotSelectView
+from QuestionGeneratorView import QuestionGeneratorView
 
 # junta todos os módulos em uma lista
 botsLista = []
@@ -24,11 +26,19 @@ class BotController:
         self.telaBot = BotView(self, "Sistema ChatBot")
         self.telaImport = BotImportView(self, "Importar ChatBot")
         self.telaExport = BotExportView(self, "Exportar ChatBot")
+        self.telaBotSelect = BotSelectView(self, "Selecionar Bot", botsLista)
+        self.telaQuestionGenerator = QuestionGeneratorView(
+            self, "Adicionar pergunta")
 
         self.botSave = None
         self.botChosen = botChosen
 
-    def inicia(self):
+    def inicia(self, *args, **kwargs):
+        botEscolhidoSave = kwargs.get('botEscolhidoSave', None)
+
+        if botEscolhidoSave != None:
+            self.botChosen = botEscolhidoSave
+
         container = self.telaBot.tela_bot(self.botChosen)
 
         # loop de eventos
@@ -48,12 +58,69 @@ class BotController:
             elif event == "Novo":
                 self.handleNew()
 
+            elif event == "Escolher Bot":
+                self.handleChoose()
+
+            elif event == "Adicionar pergunta":
+                self.handleAddQuestion()
+
             # comando do bot
             else:
                 respostaBot = self.botChosen.executa_comando(event)
                 self.telaBot.update_layout(respostaBot)
 
         self.telaBot.fim()
+
+    def handleAddQuestion(self):
+        container = self.telaQuestionGenerator.tela_bot()
+
+        rodando = True
+        while rodando:
+            event, values = self.telaQuestionGenerator.le_eventos()
+
+            if event == sg.WIN_CLOSED:
+                rodando = False
+
+            elif event == "Adicionar respostas":
+                self.telaQuestionGenerator.update_layout()
+
+            elif event == "Salvar Pergunta e Resposta(s)":
+                pergunta = values["pergunta_input"]
+                respostas = []
+
+                # loop para pegar respostas
+                for i in range(0, 99):
+                    try:
+                        respostas.append(values[i])
+                    except KeyError:
+                        break
+
+                qtdComandos = len(self.botChosen.mostra_comandos())
+                self.botChosen.cria_comandos(qtdComandos, pergunta, respostas)
+
+                if self.botSave:
+                    self.botSave.add(self.botChosen)
+
+                self.telaQuestionGenerator.fim()
+                self.telaBot.fim()
+                self.inicia(botEscolhidoSave=self.botChosen)
+
+    def handleChoose(self):
+        container = self.telaBotSelect.tela_bot()
+
+        rodando = True
+        while rodando:
+            event, values = self.telaBotSelect.le_eventos()
+
+            if event == sg.WIN_CLOSED:
+                rodando = False
+
+            else:
+                keyBot = event
+                self.botChosen = botsLista[keyBot]
+                self.telaBotSelect.fim()
+                self.telaBot.fim()
+                self.inicia()
 
     def handleImport(self):
         container = self.telaImport.tela_bot()

@@ -1,6 +1,6 @@
-from . import soneca, xandao, bottriste, botXandao
+from . import soneca, xandao, bottriste
 
 # bottriste precisa receber uma lista de comandos
 # botXandao precisa adicionar manualmente
 
-__all__ = ['soneca', 'xandao', 'bottriste', 'botXandao']
+__all__ = ['soneca', 'xandao', 'bottriste']

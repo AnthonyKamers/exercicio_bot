@@ -87,16 +87,13 @@ class NewBot(Bot):
         comandos = []
         print(self.comandos)
         for i in self.comandos:
-            print(i)
-            print(i.mensagem)
             comandos.append(i.mensagem)
 
         return comandos
 
-    def cria_comandos(self, mensagem, respostas):
+    def cria_comandos(self, id, mensagem, respostas):
         if isinstance(mensagem, str):
-            self.comandos.append(Comando(self.id, mensagem, respostas))
-            self.id += 1
+            self.comandos.append(Comando(id, mensagem, respostas))
         else:
             return 'Tipo recebido inválido'
 
